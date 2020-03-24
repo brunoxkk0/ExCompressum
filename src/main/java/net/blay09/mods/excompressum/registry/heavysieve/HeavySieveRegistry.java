@@ -53,6 +53,7 @@ public class HeavySieveRegistry extends AbstractRegistry {
     }
 
     public static boolean isSiftableWithMesh(IBlockState state, SieveMeshRegistryEntry sieveMesh) {
+
         if (ExRegistro.doMeshesSplitLootTables()) {
             RegistryKey key = new RegistryKey(state, false);
             HeavySieveRegistryEntry entry = INSTANCE.entries.get(key);

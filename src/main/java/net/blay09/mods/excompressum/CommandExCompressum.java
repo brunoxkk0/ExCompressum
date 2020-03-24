@@ -37,6 +37,20 @@ public class CommandExCompressum extends CommandBase {
 			throw new WrongUsageException(getUsage(sender));
 		}
 		if(args[0].equals("reload")) {
+			doReload(sender);
+		} else {
+			throw new WrongUsageException(getUsage(sender));
+		}
+	}
+
+	@Override
+	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos) {
+		return getListOfStringsMatchingLastWord(args, "reload");
+	}
+
+	void doReload(@Nullable ICommandSender sender){
+
+		if(sender != null){
 			AbstractRegistry.registryErrors.clear();
 			ChickenStickRegistry.INSTANCE.load(ExCompressum.configDir);
 			CompressedHammerRegistry.INSTANCE.load(ExCompressum.configDir);
@@ -52,13 +66,13 @@ public class CommandExCompressum extends CommandBase {
 				}
 			}
 			MinecraftForge.EVENT_BUS.post(new ExCompressumReloadEvent());
-		} else {
-			throw new WrongUsageException(getUsage(sender));
+		}else{
+			AbstractRegistry.registryErrors.clear();
+			ChickenStickRegistry.INSTANCE.load(ExCompressum.configDir);
+			CompressedHammerRegistry.INSTANCE.load(ExCompressum.configDir);
+			HeavySieveRegistry.INSTANCE.load(ExCompressum.configDir);
+			WoodenCrucibleRegistry.INSTANCE.load(ExCompressum.configDir);
+			MinecraftForge.EVENT_BUS.post(new ExCompressumReloadEvent());
 		}
-	}
-
-	@Override
-	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos) {
-		return getListOfStringsMatchingLastWord(args, "reload");
 	}
 }

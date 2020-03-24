@@ -19,6 +19,7 @@ import net.minecraftforge.fluids.Fluid;
 import java.util.List;
 
 public class InternalMethods implements IInternalMethods {
+
 	@Override
 	public void registerChickenStickHammerable(IBlockState state, boolean isWildcard) {
 		ChickenStickRegistry.INSTANCE.add(state, isWildcard);

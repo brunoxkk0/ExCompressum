@@ -49,6 +49,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
+import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -101,6 +102,7 @@ public class ExCompressum {
         registerAddon(Compat.EXNIHILO_OMNIA, "net.blay09.mods.excompressum.compat.exnihiloomnia.ExNihiloOmniaAddon");
         registerAddon(Compat.EXNIHILO_ADSCENSIO, "net.blay09.mods.excompressum.compat.exnihiloadscensio.ExNihiloAdscensioAddon");
         registerAddon(Compat.EXNIHILO_CREATIO, "net.blay09.mods.excompressum.compat.exnihilocreatio.ExNihiloCreatioAddon");
+
         if (ExRegistro.instance == null) {
             ExCompressum.logger.warn("No Ex Nihilo mod installed - many things will be disabled. Why would you run Ex Compressum without Ex Nihilo? Pfft.");
             ExRegistro.instance = new NihilisticNihiloProvider();
@@ -129,6 +131,7 @@ public class ExCompressum {
         WoodenCrucibleRegistry.INSTANCE.load(configDir);
         CompressedHammerRegistry.INSTANCE.load(configDir);
         HeavySieveRegistry.INSTANCE.load(configDir);
+
     }
 
     @Mod.EventHandler
@@ -141,6 +144,10 @@ public class ExCompressum {
         for (IAddon addon : addons) {
             addon.postInit();
         }
+
+        logger.info("Tentando recarregar o registro para arrumar os custom drops.");
+        new CommandExCompressum().doReload(null);
+
     }
 
     private Optional<?> buildSoftDependProxy(String modId, String className) {

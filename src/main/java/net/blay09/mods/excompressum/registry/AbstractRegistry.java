@@ -36,6 +36,7 @@ public abstract class AbstractRegistry {
 		clear();
 		Gson gson = new Gson();
 		File configFile = new File(configDir, registryName + ".json");
+
 		if(!configFile.exists()) {
 			try(JsonWriter jsonWriter = new JsonWriter(new FileWriter(configFile))) {
 				jsonWriter.setIndent("  ");
@@ -49,10 +50,12 @@ public abstract class AbstractRegistry {
 		try(JsonReader jsonReader = new JsonReader(new FileReader(configFile))) {
 			jsonReader.setLenient(true);
 			root = gson.fromJson(jsonReader, JsonObject.class);
+
 			if(hasOptions()) {
 				JsonObject options = tryGetObject(root, "options");
 				loadOptions(options);
 			}
+
 			JsonObject defaults = tryGetObject(root, "defaults");
 			registerDefaults(defaults);
 			JsonObject custom = tryGetObject(root, "custom");
